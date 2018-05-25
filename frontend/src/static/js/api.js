@@ -1,3 +1,11 @@
+/* util funcs */
+function $(id){ return document.getElementById(id); } 
+
+function enquery(key, val){
+    return key + "=" + encodeURIComponent(val);
+}
+
+/* api funcs */
 function loadJSON(file, fn){
     var xhr = new XMLHttpRequest();
     xhr.open("GET", file);
@@ -15,14 +23,16 @@ var api = {
     loadSummary: function(callback){
         loadJSON(REPORT_DIR+"/summary.json", repos => {
             REPOS = {};
-
+            
+            var names = [];
             for(var repo of repos){
                 var name = repo.organization+"_"+repo.repoName;
                 REPOS[name] = repo;
-                api.loadCommits(name);
+                names.push(name);
             }
 
             if(callback){ callback(); }
+            for(var name of names){ api.loadCommits(name); }
         });
     },
 
@@ -35,15 +45,23 @@ var api = {
                 var obj = {
                     name: author,
                     repoId: repo,
+                    variance: commits.authorContributionVariance[author],
                     displayName: commits.authorDisplayNameMap[author],
                     weeklyCommits: commits.authorWeeklyIntervalContributions[author],
                     dailyCommits: commits.authorDailyIntervalContributions[author],
-                    totalCommits: commits.authorFinalContributionMap[author]
+                    totalCommits: commits.authorFinalContributionMap[author],
                 };
+                obj.searchPath = REPOS[repo].organization+"/";
+                obj.searchPath += REPOS[repo].repoName+"/";
+                obj.searchPath += obj.displayName+"/";
+                obj.searchPath += author;
+                obj.searchPath = obj.searchPath.toLowerCase()
+
                 res.push(obj);
             }
-
-            app.addUsers(res);
+            
+            REPOS[repo]["users"] = res;
+            app.addUsers();
         });
     }
 };

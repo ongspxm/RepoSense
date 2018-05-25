@@ -37,13 +37,41 @@ header{
 }
 
 /* summary chart */
-#summary{
-    padding-top:2rem;
-    text-align:center;
+#summary, .summary-status{
+    margin:2rem;
+}
+
+.summary-picker{
+    margin-bottom:2rem;
+
+    &__input{
+        margin:0.5rem;
+    }
+
+    &__search{
+        text-transform:lowercase;
+    }
+
+    &__checkboxes{
+        label{ margin-left:0.5rem; }
+        span{ margin-left:0.25rem; } 
+    }
+
+    &__date:first-child{
+        margin-right:0.5rem;
+    }
+}
+
+.summary-charts{
+    margin-bottom:3rem;
+
+    &--title{
+        font-weight:bold;
+    }
 }
 
 .summary-chart{
-    margin-bottom:1rem;
+    margin-bottom:1rem; 
 
     &__title{
         display:flex;
@@ -54,8 +82,11 @@ header{
             padding-right:0.5rem;
         }
 
-        &--organization::after{ content:"/"; }
-        &--repo::after{ content:"/"; }
+        &--repo::after{
+            content:"/";
+            display:inline-block;
+            padding-right:0.1rem;
+        }
     }
 
     &__ramp{
@@ -71,6 +102,9 @@ header{
             position:absolute;
             width:0;
             height:0;
+
+            border-left-color: rgba(0,0,0,0);
+            border-left-style: solid;
 
             &--color0{ border-bottom:$height rgba(mui-color("orange"), 0.5) solid;  }
             &--color1{ border-bottom:$height rgba(mui-color("light-blue"), 0.5) solid;  }
