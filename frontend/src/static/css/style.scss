@@ -72,10 +72,18 @@ header{
 }
 
 .summary-chart{
-    margin:0 0 1rem 1.5rem;
+    margin-bottom:1rem;
+
+    &.indented{
+        margin-left:1.5rem;
+    }
 
     &__title{
-        display:flex;
+        text-align:left;
+
+        &--index, &--repo, &--name{
+            display:inline;
+        }
         
         &--index, &--repo{
             font-weight:bold;
