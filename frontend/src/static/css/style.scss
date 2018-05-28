@@ -20,6 +20,9 @@ body{
 
 /** navigation bar **/
 header{
+    z-index:100;
+    position:relative;
+
     display:flex;
     justify-content:center;
 
@@ -36,9 +39,62 @@ header{
     }
 }
 
+main{
+    position:absolute;
+    left:0; top:0;
+    z-index:50;
+
+    width:calc(100vw - 1rem);
+    height:100vh;
+}
+
+#app-wrapper{
+    display:flex;
+    overflow:fixed;
+
+    #summary-wapper{
+        overflow:scroll;
+    }
+
+    #tabs-wrapper{
+        flex:0 0 30rem;
+        display:flex;
+        flex-direction:column;
+
+        .mui-tabs__bar{
+            text-align:right;
+
+            a{ 
+                display:inline; 
+                cursor:pointer;
+                vertical-align:middle;
+            }
+        }
+        
+        .tab-panes{
+            display:flex;
+
+            .tab-close{
+                align-self:center;
+
+                svg{
+                    color:#fff;
+                    background-color:#333;
+                    padding:3rem 0.25rem; 
+                }    
+            }
+
+            .tab-pane{
+                padding:0.5rem 1rem; 
+                text-align:left;
+            }
+        } 
+    }
+}
+
 /* summary chart */
 #summary, .summary-status{
-    margin:2rem;
+    padding:2rem 1rem;
 }
 
 .summary-picker{
@@ -75,7 +131,7 @@ header{
     margin-bottom:1rem;
 
     &.indented{
-        margin-left:1.5rem;
+        padding-left:1.5rem;
     }
 
     &__title{

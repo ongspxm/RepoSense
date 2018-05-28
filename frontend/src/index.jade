@@ -15,17 +15,32 @@ html
           .logo.mui--text-title RepoSense
           form.repo(onsubmit="return false;")
             input(placeHolder="insert report URL", v-model="reportDirInput")
-            button.mui-btn.mui-btn--flat(v-on:click="updateReportDir();") Go
-
-      .wrapper(v-if="userUpdated")
-        #summary-wrapper
-          .summary-status(v-if="loadedRepo<repoLength") Loading repos ... {{ loadedRepo }} / {{ repoLength }}
-          v_summary(v-bind:repos="getUsers()")
-        #tabs-wrapper
-
-
-      .wrapper(v-else)
-        .empty please enter a report directory
+            button.mui-btn.mui-btn--flat(v-on:click="updateReportDir();") Go 
+      main.wrapper 
+        .buffer.mui--appbar-height
+        #app-wrapper(v-if="userUpdated")
+          #summary-wrapper
+            .summary-status(v-if="loadedRepo<repoLength") Loading repos ... {{ loadedRepo }} / {{ repoLength }}
+            v_summary(v-bind:repos="getUsers()")
+          #tabs-wrapper(v-if="isTabActive")
+            ul.mui-tabs__bar
+              li(v-bind:class="{'mui--is-active':isTabAuthorship}")
+                a(v-on:click="deactivateTabs(); isTabAuthorship=true;") 
+                  i.fas.fa-lg.fa-code
+              li(v-bind:class="{'mui--is-active':isTabIssues}")
+                a(v-on:click="deactivateTabs(); isTabIssues=true;")
+                  i.fas.fa-lg.fa-exclamation-circle 
+            .tab-panes
+              .tab-close
+                i.fas.fa-caret-right
+              #tab-authorship.tab-pane(v-if="isTabAuthorship")
+                span asdf
+              #tab-issues.tab-pane(v-if="isTabIssues")
+                span qwert
+           
+        
+        template(v-else)
+          .empty please enter a report directory
 
     script#v_summary
       #summary
