@@ -72,10 +72,14 @@ header{
 }
 
 .summary-chart{
-    margin-bottom:1rem; 
+    margin:0 0 1rem 1.5rem;
 
     &__title{
         display:flex;
+        
+        &--index, &--repo{
+            font-weight:bold;
+        }
 
         &--index::after{
             content:".";
@@ -83,10 +87,8 @@ header{
             padding-right:0.5rem;
         }
 
-        &--repo::after{
-            content:"/";
-            display:inline-block;
-            padding-right:0.1rem;
+        &--repo{
+            padding-right:0.25rem;
         }
     }
 

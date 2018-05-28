@@ -55,7 +55,10 @@ var api = {
                 obj.searchPath += REPOS[repo].repoName+"/";
                 obj.searchPath += obj.displayName+"/";
                 obj.searchPath += author;
-                obj.searchPath = obj.searchPath.toLowerCase()
+                obj.searchPath = obj.searchPath.toLowerCase();
+
+                obj.repoPath = REPOS[repo].organization+"/";
+                obj.repoPath += REPOS[repo].repoName;
 
                 res.push(obj);
             }
