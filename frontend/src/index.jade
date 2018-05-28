@@ -54,11 +54,11 @@ html
               label until 
         #summary-charts
           .summary-charts(v-for="repo of filtered", v-if="repo.length>0")
-            .summary-charts--title(v-if="filterGroupRepos") {{ repo[0].repoId }}
+            .summary-charts--title(v-if="filterGroupRepos") {{ repo[0].repoPath }}
             .summary-chart(v-for="(user, i) in repo")
               .summary-chart__title
                 .summary-chart__title--index {{ i+1 }}
-                .summary-chart__title--repo(v-if="!filterGroupRepos") {{ user.repoId }}
+                .summary-chart__title--repo(v-if="!filterGroupRepos") {{ user.repoPath }}
                 .summary-chart__title--name {{ user.displayName }}
               .summary-chart__ramp
                 a.summary-chart__ramp__slice(
