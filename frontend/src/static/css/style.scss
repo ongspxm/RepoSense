@@ -16,6 +16,7 @@ body{
 
 .empty{
     margin:3rem 5rem;
+    text-align:center;
 }
 
 /** navigation bar **/
@@ -39,56 +40,63 @@ header{
     }
 }
 
-main{
+#app-wrapper{
+    display:flex;
     position:absolute;
     left:0; top:0;
     z-index:50;
 
-    width:calc(100vw - 1rem);
+    width:100%;
     height:100vh;
-}
 
-#app-wrapper{
-    display:flex;
-    overflow:fixed;
-
-    #summary-wapper{
+    #summary-wrapper{
+        height:100%;
         overflow:scroll;
+        flex-grow:1;
     }
 
     #tabs-wrapper{
-        flex:0 0 30rem;
-        display:flex;
-        flex-direction:column;
+        $tabs-width:30rem;
+
+        flex:0 0 $tabs-width;
+        position:relative;
+        overflow-y:scroll;
+
+        .tab-close{
+            cursor:pointer;
+            position:fixed;
+            top:calc(50vh - 3rem);
+
+            svg{
+                color:#fff;
+                background-color:#333;
+                padding:3rem 0.25rem;
+            }
+        }
 
         .mui-tabs__bar{
-            text-align:right;
+            background-color:#fff;
+            width:$tabs-width;
+            position:fixed;
+            right:0;
 
-            a{ 
-                display:inline; 
+            a{
+                display:inline;
                 cursor:pointer;
                 vertical-align:middle;
             }
         }
-        
-        .tab-panes{
+
+        .tab-content{
             display:flex;
+            padding:1rem 1.5rem;
+            padding-top:4rem;
 
-            .tab-close{
-                align-self:center;
-
-                svg{
-                    color:#fff;
-                    background-color:#333;
-                    padding:3rem 0.25rem; 
-                }    
-            }
-
-            .tab-pane{
-                padding:0.5rem 1rem; 
+            .tab-panes{
+                width:100%;
                 text-align:left;
             }
-        } 
+        }
     }
 }
 
