@@ -1,5 +1,5 @@
 /* util funcs */
-function $(id){ return document.getElementById(id); } 
+function $(id){ return document.getElementById(id); }
 
 function enquery(key, val){
     return key + "=" + encodeURIComponent(val);
@@ -23,7 +23,7 @@ var api = {
     loadSummary: function(callback){
         loadJSON(REPORT_DIR+"/summary.json", repos => {
             REPOS = {};
-            
+
             var names = [];
             for(var repo of repos){
                 var name = repo.organization+"_"+repo.repoName;
@@ -62,7 +62,7 @@ var api = {
 
                 res.push(obj);
             }
-            
+
             REPOS[repo]["users"] = res;
             app.addUsers();
         });

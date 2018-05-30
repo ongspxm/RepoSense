@@ -54,7 +54,7 @@ header{
 
     &__checkboxes{
         label{ margin-left:0.5rem; }
-        span{ margin-left:0.25rem; } 
+        span{ margin-left:0.25rem; }
     }
 
     &__date:first-child{
@@ -84,7 +84,7 @@ header{
         &--index, &--repo, &--name{
             display:inline;
         }
-        
+
         &--index, &--repo{
             font-weight:bold;
         }

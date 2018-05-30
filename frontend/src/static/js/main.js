@@ -12,7 +12,7 @@ var app = new Vue({
     },
     methods:{
         // model funcs
-        updateReportDir: function(evt){ 
+        updateReportDir: function(evt){
             REPORT_DIR = this.reportDirInput;
             this.users = [];
 
@@ -31,7 +31,7 @@ var app = new Vue({
             var full = [];
             for(var repo in this.repos){
                 if(!this.repos[repo].users){ continue; }
-                full.push(this.repos[repo]); 
+                full.push(this.repos[repo]);
             }
             return full;
         }
