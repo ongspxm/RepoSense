@@ -8,10 +8,7 @@ var app = new Vue({
         repos: {},
         repoLength: 0,
         loadedRepo: 0,
-        userUpdated: false,
-        isTabActive: true,
-        isTabAuthorship: false,
-        isTabIssues: false
+        userUpdated: false
     },
     methods:{
         // model funcs
@@ -37,10 +34,6 @@ var app = new Vue({
                 full.push(this.repos[repo]);
             }
             return full;
-        },
-        deactivateTabs: function(){
-            this.isTabAuthorship = false;
-            this.isTabIssues = false;
         }
     },
     components:{
