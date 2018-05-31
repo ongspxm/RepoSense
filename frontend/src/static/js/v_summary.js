@@ -1,4 +1,4 @@
-function comparator(fn){ return function(a, b){ 
+function comparator(fn){ return function(a, b){
     var a1 = fn(a), b1=fn(b);
     if(a1 == b1){ return 0; }
     else if(a1 < b1){ return -1; }
@@ -8,7 +8,7 @@ function comparator(fn){ return function(a, b){
 /* dates funcs */
 const DAY = (1000*60*60*24);
 function getIntervalDay(a, b){
-    var diff = Date.parse(a) - Date.parse(b); 
+    var diff = Date.parse(a) - Date.parse(b);
     return diff/DAY;
 }
 function getIntervalWeek(a, b){
@@ -28,14 +28,14 @@ function dateRounding(datestr, roundDown){
         datems += (7-day)*DAY;
     }
 
-    return getDateStr(datems); 
+    return getDateStr(datems);
 }
 
 var vSummary = {
     props: ["repos"],
     template: $("v_summary").innerHTML,
     data: function(){
-        return { 
+        return {
             filtered: [],
             rampScale: 0.1,
             filterSearch: "",
@@ -48,7 +48,7 @@ var vSummary = {
             filterHash: ""
         };
     },
-    watch:{ 
+    watch:{
         repos: function(){ this.getFiltered(); },
         filterSort: function(){ this.getFiltered(); },
         filterSortReverse: function(){ this.getFiltered(); },
@@ -74,7 +74,7 @@ var vSummary = {
             return totalCommits/totalCount;
         },
         avgContributionSize: function(){
-            var totalLines=0, totalCount=0; 
+            var totalLines=0, totalCount=0;
             for(repo of this.filtered){
                 for(user of repo){
                     if(user.totalCommits==0){ continue; }
@@ -85,7 +85,7 @@ var vSummary = {
             return totalLines/totalCount;
         }
     },
-    methods: { 
+    methods: {
         // view funcs
         getWidth: function(slice){
             if(slice.insertions==0){ return 0; }
@@ -108,19 +108,19 @@ var vSummary = {
               'until=' + slice.toDate;
         },
         getContributionBars: function(totalContribution){
-            var res = []; 
+            var res = [];
             var contributionLimit = (this.avgContributionSize*2);
 
             var cnt = parseInt(totalContribution/contributionLimit);
             for(i=0; i<cnt; i++){ res.push(100); }
-            
+
             var last = (totalContribution%contributionLimit)/contributionLimit;
             if(last!=0){ res.push(last*100); }
 
             return res;
         },
         // model funcs
-        getFilterHash: function(){ 
+        getFilterHash: function(){
             this.filterSearch = this.filterSearch.toLowerCase();
             this.filterHash = [
                 enquery("search", this.filterSearch),
@@ -152,26 +152,26 @@ var vSummary = {
             if(!this.filterSinceDate){ this.filterSinceDate=minDate; }
             if(!this.filterUntilDate){ this.filterUntilDate=maxDate; }
         },
-        getFiltered: function(){ 
+        getFiltered: function(){
             this.getFilterHash();
 
             // array of array, sorted by repo
-            var full = []; 
+            var full = [];
 
             for(repo of this.repos){
                 var res = [];
-                
+
                 // filtering
-                for(user of repo.users){ 
+                for(user of repo.users){
                     if(user.searchPath.search(this.filterSearch)>-1){
                         this.getUserCommits(user);
                         if(this.filterGroupWeek){ this.splitCommitsWeek(user); }
                         res.push(user);
-                    } 
+                    }
                 }
 
                 if(res.length){ full.push(res); }
-            } 
+            }
             this.filtered = full;
 
             this.sortFiltered();
@@ -181,7 +181,7 @@ var vSummary = {
             var commits = user.commits;
             var leng = commits.length;
 
-            var res = []; 
+            var res = [];
             for(var i=0; i<(leng-1)/7; i++){
                 var week = {
                     insertions:0,
@@ -193,17 +193,17 @@ var vSummary = {
                 for(var j=0; j<7; j++){
                     var commit = commits[i*7 + j];
                     week.insertions += commit.insertions;
-                    week.deletions += commit.deletions;     
+                    week.deletions += commit.deletions;
                     week.toDate = commit.toDate;
                 }
-                
+
                 res.push(week);
             }
 
             user.commits = res;
         },
         getUserCommits: function(user){
-            user["commits"] = []; 
+            user["commits"] = [];
             var userFirst = user.dailyCommits[0];
             var userLast = user.dailyCommits[user.dailyCommits.length-1];
 
@@ -211,20 +211,20 @@ var vSummary = {
             if(!sinceDate){ sinceDate = userFirst.fromDate; }
 
             if(this.filterGroupWeek){ sinceDate = dateRounding(sinceDate, 1); }
-            var diff = getIntervalDay(userFirst.fromDate, sinceDate); 
+            var diff = getIntervalDay(userFirst.fromDate, sinceDate);
 
             var startMs = (new Date(sinceDate)).getTime();
-            for(var i=0; i<diff; i++){ 
-                user.commits.push({ 
-                    insertions:0, 
+            for(var i=0; i<diff; i++){
+                user.commits.push({
+                    insertions:0,
                     deletions:0,
                     fromDate:getDateStr(startMs + i*DAY),
                     toDate:getDateStr(startMs + (i+1)*DAY)
-                }); 
+                });
             }
 
             for(commit of user.dailyCommits){
-                if(commit.fromDate<sinceDate){ continue; } 
+                if(commit.fromDate<sinceDate){ continue; }
                 if(commit.fromDate>untilDate){ break; }
                 user.commits.push(commit);
             }
@@ -236,19 +236,19 @@ var vSummary = {
             diff = getIntervalDay(untilDate, userLast.fromDate);
 
             var endMs = (new Date(userLast.fromDate)).getTime();
-            for(var i=0; i<diff; i++){ 
-                user.commits.push({ 
-                    insertions:0, 
+            for(var i=0; i<diff; i++){
+                user.commits.push({
+                    insertions:0,
                     deletions:0,
                     fromDate:getDateStr(endMs + i*DAY),
                     endDate:getDateStr(endMs + (i+1)*DAY)
-                }); 
+                });
             }
         },
-        sortFiltered: function(){ 
+        sortFiltered: function(){
             var full = [];
             if(this.filterGroupRepos){
-                for(users of this.filtered){ 
+                for(users of this.filtered){
                     users.sort(comparator(ele => ele[this.filterSort]));
                     full.push(users);
                 }
