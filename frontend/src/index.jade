@@ -22,41 +22,41 @@ html
           .summary-status(v-if="loadedRepo<repoLength") Loading repos ... {{ loadedRepo }} / {{ repoLength }}
           v_summary(v-bind:repos="getUsers()")
         #tabs-wrapper
-           
-        
+
+
       .wrapper(v-else)
         .empty please enter a report directory
 
     script#v_summary
       #summary
-        form.summary-picker.content.mui-form--inline(v-on:submit.prevent="getFiltered();") 
+        form.summary-picker.content.mui-form--inline(v-on:submit.prevent="getFiltered();")
           .mui-textfield.summary-picker__input
             input.summary-picker__search(type="text", v-model="filterSearch")
             label search
           .mui-select.summary-picker__input
             select(v-model="filterSort")
               option(value="totalCommits") Contribution
-              option(value="variance") Variance 
+              option(value="variance") Variance
               option(value="displayName") Author Name
               option(value="searchPath") Team Name
-            label sort by 
+            label sort by
           .mui-checkbox.summary-picker__checkboxes.summary-picker__input
             label
               input(type="checkbox", v-model="filterSortReverse").summary-picker__checkbox
               span reverse
             label
               input(type="checkbox", v-model="filterGroupRepos").summary-picker__checkbox
-              span group by repo 
+              span group by repo
             label
               input(type="checkbox", v-model="filterGroupWeek").summary-picker__checkbox
-              span week 
+              span week
           .summary-picker__input
             .mui-textfield.summary-picker__date
               input(type="date", v-model="filterSinceDate")
               label since
             .mui-textfield.summary-picker__date
               input(type="date", v-model="filterUntilDate")
-              label until 
+              label until
         #summary-charts
           .summary-charts(v-for="repo of filtered", v-if="repo.length>0")
             .summary-charts--title(v-if="filterGroupRepos") {{ repo[0].repoPath }}

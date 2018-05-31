@@ -12,7 +12,7 @@
     @warn "Color `#{$mui-key1}` not found.";
     @return null;
   }
-  
+
   $mui-mapVal: map-get($mui-colors, $mui-key1);
 
   // use second key

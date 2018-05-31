@@ -8,14 +8,11 @@ var app = new Vue({
         repos: {},
         repoLength: 0,
         loadedRepo: 0,
-        userUpdated: false,
-        isTabActive: true,
-        isTabAuthorship: false,
-        isTabIssues: false
+        userUpdated: false
     },
     methods:{
         // model funcs
-        updateReportDir: function(evt){ 
+        updateReportDir: function(evt){
             REPORT_DIR = this.reportDirInput;
             this.users = [];
 
@@ -34,13 +31,9 @@ var app = new Vue({
             var full = [];
             for(var repo in this.repos){
                 if(!this.repos[repo].users){ continue; }
-                full.push(this.repos[repo]); 
+                full.push(this.repos[repo]);
             }
             return full;
-        },
-        deactivateTabs: function(){
-            this.isTabAuthorship = false;
-            this.isTabIssues = false;
         }
     },
     components:{
