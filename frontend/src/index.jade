@@ -16,7 +16,7 @@ html
           form.repo(onsubmit="return false;")
             input(placeHolder="insert report URL", v-model="reportDirInput")
             button.mui-btn.mui-btn--flat(v-on:click="updateReportDir();") Go
-      
+
       #app-wrapper(v-if="userUpdated")
         #summary-wrapper
           .buffer.mui--appbar-height
@@ -28,11 +28,11 @@ html
           .buffer.mui--appbar-height
           ul.mui-tabs__bar
             li(v-bind:class="{'mui--is-active':isTabAuthorship}")
-              a(v-on:click="deactivateTabs(); isTabAuthorship=true;") 
+              a(v-on:click="deactivateTabs(); isTabAuthorship=true;")
                 i.fas.fa-lg.fa-code
             li(v-bind:class="{'mui--is-active':isTabIssues}")
               a(v-on:click="deactivateTabs(); isTabIssues=true;")
-                i.fas.fa-lg.fa-exclamation-circle 
+                i.fas.fa-lg.fa-exclamation-circle
           .tab-content
             .tab-panes
               #tab-authorship.tab-pane(v-if="isTabAuthorship")
@@ -40,17 +40,17 @@ html
                 p Cras elementum sem a turpis ultricies, et euismod justo rutrum. Donec bibendum libero et lobortis molestie. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Pellentesque vitae consectetur lectus, ut porta nulla. Nullam sed nibh et elit bibendum fringilla. Mauris ut velit imperdiet, scelerisque tellus vel, interdum libero. Curabitur sagittis fringilla lacus sed tempus. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Donec rhoncus quam at nisi pulvinar, sit amet mattis metus finibus. Quisque accumsan varius ligula, et maximus neque malesuada at. Praesent cursus magna tempor auctor euismod. Cras a molestie quam. Maecenas feugiat laoreet nisl, eget dictum dolor feugiat a.
                 p Aliquam erat volutpat. Quisque nec risus in arcu viverra placerat. Etiam accumsan, ipsum id venenatis tempus, nulla quam finibus dolor, vel maximus arcu sem vel lorem. Aliquam vestibulum, erat dictum sodales pretium, mi nunc porttitor sem, vel efficitur augue tortor vel elit. Mauris nec ligula consectetur erat sollicitudin molestie. Donec eu luctus quam, vitae eleifend est. Nunc ut augue nec augue interdum volutpat sit amet eget dolor. Suspendisse accumsan, ante euismod tincidunt euismod, ipsum elit congue sapien, ut semper enim purus quis est. Aenean in mi diam. Integer accumsan egestas felis, nec dictum turpis imperdiet in. Mauris nec pellentesque urna. Nam blandit condimentum arcu, sit amet cursus nulla tincidunt dignissim. Vivamus at dictum enim, id euismod magna. Integer pretium quam vitae ligula varius pretium. Praesent vitae efficitur ex.
                 p Aenean mauris sapien, varius sed varius id, faucibus eget nunc. Pellentesque fermentum sollicitudin ultricies. Sed sapien augue, viverra a sagittis sit amet, bibendum euismod erat. Curabitur in congue ante, a lacinia leo. Maecenas risus purus, convallis et posuere id, dignissim eu elit. Aliquam rutrum aliquam venenatis. Pellentesque tristique libero hendrerit viverra porta. Integer at lacinia tortor, at cursus tellus.
-                p Aenean a rutrum justo, maximus ullamcorper purus. Donec sit amet sapien a nunc consequat scelerisque. Donec tempus volutpat nunc feugiat interdum. Ut vel suscipit lectus, et aliquet sapien. Phasellus mattis non sapien sit amet fringilla. In neque arcu, malesuada eu eros venenatis, accumsan finibus magna. Duis laoreet augue a dolor mollis iaculis. In vel erat faucibus, suscipit nulla nec, lobortis lorem. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nulla in egestas magna, at facilisis nulla. 
-                
+                p Aenean a rutrum justo, maximus ullamcorper purus. Donec sit amet sapien a nunc consequat scelerisque. Donec tempus volutpat nunc feugiat interdum. Ut vel suscipit lectus, et aliquet sapien. Phasellus mattis non sapien sit amet fringilla. In neque arcu, malesuada eu eros venenatis, accumsan finibus magna. Duis laoreet augue a dolor mollis iaculis. In vel erat faucibus, suscipit nulla nec, lobortis lorem. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nulla in egestas magna, at facilisis nulla.
+
               #tab-issues.tab-pane(v-if="isTabIssues")
-                span qwert 
-        
+                span qwert
+
       template(v-else)
         .empty please enter a report directory
 
     script#v_summary
       #summary.wrapper
-        form.summary-picker.content.mui-form--inline(v-on:submit.prevent="getFiltered();") 
+        form.summary-picker.content.mui-form--inline(v-on:submit.prevent="getFiltered();")
           .mui-textfield.summary-picker__input
             input.summary-picker__search(type="text", v-model="filterSearch")
             label search
