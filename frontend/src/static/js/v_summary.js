@@ -250,24 +250,23 @@ var vSummary = {
         },
         sortFiltered() {
             var full = [];
-            if(this.filterGroupRepos){
-                for(var users of this.filtered){
+            if(this.filterGroupRepos){ full.push([]); }
+
+            for(var users of this.filtered){
+                if(this.filterGroupRepos){ 
                     users.sort(comparator((ele) => ele[this.filterSort]));
                     full.push(users);
+                }else{
+                    full[0].concat(users); 
                 }
-            }else{
-                full.push([]);
-                for(var users of this.filtered){
-                    for(user of users){
-                        full[0].push(user);
-                    }
-                }
-
+            }
+            
+            if(this.filterGroupRepos){ 
                 full[0].sort(comparator(ele => ele[this.filterSort]));
             }
 
             if(this.filterSortReverse){
-                for(users of full){ users.reverse(); }
+                for(var users of full){ repo.reverse(); }
             }
 
             this.filtered = full;
