@@ -75,9 +75,9 @@ var vSummary = {
         },
         avgContributionSize() {
             var totalLines=0, totalCount=0;
-            for(repo of this.filtered){
-                for(user of repo){
-                    if(user.totalCommits==0){ continue; }
+            for(var repo of this.filtered){
+                for(var user of repo){
+                    if(user.totalCommits===0){ continue; }
                     totalCount += 1;
                     totalLines += user.totalCommits;
                 }
@@ -101,28 +101,30 @@ var vSummary = {
         getSliceLink(user, slice) {
             var REPOS = window.REPOS;
 
-            return 'http://github.com/' +
-              REPOS[user.repoId].organization + '/' +
-              REPOS[user.repoId].repoName + '/commits/' +
-              REPOS[user.repoId].branch + '?' +
-              'author=' + user.name + '&' +
-              'since=' + slice.fromDate + '&' +
-              'until=' + slice.toDate;
+            return "http://github.com/" +
+              REPOS[user.repoId].organization + "/" +
+              REPOS[user.repoId].repoName + "/commits/" +
+              REPOS[user.repoId].branch + "?" +
+              "author=" + user.name + "&" +
+              "since=" + slice.fromDate + "&" +
+              "until=" + slice.toDate;
         },
         getContributionBars(totalContribution) {
             var res = [];
             var contributionLimit = (this.avgContributionSize*2);
 
             var cnt = parseInt(totalContribution/contributionLimit);
-            for(i=0; i<cnt; i++){ res.push(100); }
+            for(var i=0; i<cnt; i++){ res.push(100); }
 
             var last = (totalContribution%contributionLimit)/contributionLimit;
-            if(last!=0){ res.push(last*100); }
+            if(last!==0){ res.push(last*100); }
 
             return res;
         },
         // model funcs
         getFilterHash() {
+            var enquery = window.enquery; // utils under api.js 
+
             this.filterSearch = this.filterSearch.toLowerCase();
             this.filterHash = [
                 enquery("search", this.filterSearch),

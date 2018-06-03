@@ -1,7 +1,7 @@
 var REPORT_DIR = "";
 var REPOS = {};
 
-var app = new Vue({
+var app = new window.Vue({
     el: "#app",
     data: {
         reportDirInput: "",
@@ -12,22 +12,22 @@ var app = new Vue({
     },
     methods:{
         // model funcs
-        updateReportDir: function(evt){
+        updateReportDir(evt) {
             REPORT_DIR = this.reportDirInput;
             this.users = [];
 
-            api.loadSummary(() => {
+            window.api.loadSummary(() => {
                 this.repos = REPOS;
                 this.repoLength = Object.keys(REPOS).length;
                 this.loadedRepo = 0;
             });
         },
-        addUsers: function(users){
+        addUsers(users) {
             this.userUpdated = false;
             this.loadedRepo += 1;
             this.userUpdated = true;
         },
-        getUsers: function(){
+        getUsers() {
             var full = [];
             for(var repo in this.repos){
                 if(!this.repos[repo].users){ continue; }
@@ -37,6 +37,6 @@ var app = new Vue({
         }
     },
     components:{
-        "v_summary": vSummary
+        "v_summary": window.vSummary
     },
 });
