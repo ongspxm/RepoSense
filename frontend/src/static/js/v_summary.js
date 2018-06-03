@@ -88,7 +88,7 @@ var vSummary = {
     methods: {
         // view funcs
         getWidth(slice) {
-            if(slice.insertions==0){ return 0; }
+            if(slice.insertions===0){ return 0; }
 
             var size = this.sliceWidth;
             size *= slice.insertions/this.avgCommitSize;
@@ -114,7 +114,7 @@ var vSummary = {
             var contributionLimit = (this.avgContributionSize*2);
 
             var cnt = parseInt(totalContribution/contributionLimit);
-            for(var i=0; i<cnt; i++){ res.push(100); }
+            for(var cnt_i=0; i<cnt; cnt_i++){ res.push(100); }
 
             var last = (totalContribution%contributionLimit)/contributionLimit;
             if(last!==0){ res.push(last*100); }
@@ -133,7 +133,7 @@ var vSummary = {
                 enquery("repoSort", this.filterGroupRepos),
                 enquery("since", this.filterSinceDate),
                 enquery("until", this.filterUntilDate)
-            ].join('&');
+            ].join("&");
 
             window.location.hash = this.filterHash;
         },
@@ -143,8 +143,8 @@ var vSummary = {
             }
 
             var minDate="", maxDate="";
-            for(repo of this.filtered){
-                for(user of repo){
+            for(var repo of this.filtered){
+                for(var user of repo){
                     var commits = user.commits;
                     var date1 = commits[0].fromDate;
                     var date2 = commits[commits.length-1].fromDate;
@@ -186,16 +186,16 @@ var vSummary = {
             var leng = commits.length;
 
             var res = [];
-            for(var i=0; i<(leng-1)/7; i++){
+            for(var weekId=0; weekId<(leng-1)/7; weekId++){
                 var week = {
                     insertions:0,
                     deletions:0,
-                    fromDate:commits[i*7].fromDate,
+                    fromDate:commits[weekId*7].fromDate,
                     toDate:""
                 };
 
-                for(var j=0; j<7; j++){
-                    var commit = commits[i*7 + j];
+                for(var dayId=0; dayId<7; dayId++){
+                    var commit = commits[weekId*7 + dayId];
                     week.insertions += commit.insertions;
                     week.deletions += commit.deletions;
                     week.toDate = commit.toDate;
@@ -212,53 +212,52 @@ var vSummary = {
             var userLast = user.dailyCommits[user.dailyCommits.length-1];
 
             var sinceDate = this.filterSinceDate;
+            var untilDate = this.filterUntilDate;
             if(!sinceDate){ sinceDate = userFirst.fromDate; }
+            if(!untilDate){ untilDate = userLast.fromDate; }
 
             if(this.filterGroupWeek){ sinceDate = dateRounding(sinceDate, 1); }
             var diff = getIntervalDay(userFirst.fromDate, sinceDate);
 
             var startMs = (new Date(sinceDate)).getTime();
-            for(var i=0; i<diff; i++){
+            for(var dayId=0; dayId<diff; dayId++){
                 user.commits.push({
                     insertions:0,
                     deletions:0,
-                    fromDate:getDateStr(startMs + i*DAY),
-                    toDate:getDateStr(startMs + (i+1)*DAY)
+                    fromDate:getDateStr(startMs + dayId*DAY),
+                    toDate:getDateStr(startMs + (dayId+1)*DAY)
                 });
             }
 
-            for(commit of user.dailyCommits){
+            for(var commit of user.dailyCommits){
                 if(commit.fromDate<sinceDate){ continue; }
                 if(commit.fromDate>untilDate){ break; }
                 user.commits.push(commit);
             }
 
-            var untilDate = this.filterUntilDate;
-            if(!untilDate){ untilDate = userLast.fromDate; }
-
             if(this.filterGroupWeek){ untilDate = dateRounding(untilDate); }
             diff = getIntervalDay(untilDate, userLast.fromDate);
 
             var endMs = (new Date(userLast.fromDate)).getTime();
-            for(var i=0; i<diff; i++){
+            for(var paddingId=0; paddingId<diff; paddingId++){
                 user.commits.push({
                     insertions:0,
                     deletions:0,
-                    fromDate:getDateStr(endMs + i*DAY),
-                    endDate:getDateStr(endMs + (i+1)*DAY)
+                    fromDate:getDateStr(endMs + paddingId*DAY),
+                    endDate:getDateStr(endMs + (paddingId+1)*DAY)
                 });
             }
         },
         sortFiltered() {
             var full = [];
             if(this.filterGroupRepos){
-                for(users of this.filtered){
-                    users.sort(comparator(ele => ele[this.filterSort]));
+                for(var users of this.filtered){
+                    users.sort(comparator((ele) => ele[this.filterSort]));
                     full.push(users);
                 }
             }else{
                 full.push([]);
-                for(users of this.filtered){
+                for(var users of this.filtered){
                     for(user of users){
                         full[0].push(user);
                     }

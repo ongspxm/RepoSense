@@ -24,7 +24,7 @@ var api = {
         var REPORT_DIR = window.REPORT_DIR;
         var REPOS = window.REPOS;
 
-        loadJSON(REPORT_DIR+"/summary.json", (repos => {
+        loadJSON(REPORT_DIR+"/summary.json", (repos) => {
             REPOS = {};
 
             var names = [];
@@ -36,7 +36,7 @@ var api = {
 
             if(callback){ callback(); }
             for(var name of names){ api.loadCommits(name); }
-        }));
+        });
     },
 
     loadCommits(repo) {
@@ -44,7 +44,7 @@ var api = {
         var REPOS = window.REPOS;
         var app = window.app;
 
-        loadJSON(REPORT_DIR+"/"+repo+"/commits.json", (commits => {
+        loadJSON(REPORT_DIR+"/"+repo+"/commits.json", (commits) => {
             REPOS[repo].commits = commits;
 
             var res = [];
@@ -74,6 +74,6 @@ var api = {
 
             REPOS[repo]["users"] = res;
             app.addUsers();
-        }));
+        });
     }
 };
