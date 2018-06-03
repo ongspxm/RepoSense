@@ -114,7 +114,7 @@ var vSummary = {
             var contributionLimit = (this.avgContributionSize*2);
 
             var cnt = parseInt(totalContribution/contributionLimit);
-            for(var cnt_i=0; i<cnt; cnt_i++){ res.push(100); }
+            for(var cntId=0; cntId<cnt; cntId++){ res.push(100); }
 
             var last = (totalContribution%contributionLimit)/contributionLimit;
             if(last!==0){ res.push(last*100); }
