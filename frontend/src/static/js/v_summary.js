@@ -1,6 +1,6 @@
 function comparator(fn){ return function(a, b){
     var a1 = fn(a), b1=fn(b);
-    if(a1 == b1){ return 0; }
+    if(a1 === b1){ return 0; }
     else if(a1 < b1){ return -1; }
     return 1;
 };}
@@ -34,7 +34,7 @@ function dateRounding(datestr, roundDown){
 var vSummary = {
     props: ["repos"],
     template: $("v_summary").innerHTML,
-    data: function(){
+    data() {
         return {
             filtered: [],
             rampScale: 0.1,
@@ -49,23 +49,23 @@ var vSummary = {
         };
     },
     watch:{
-        repos: function(){ this.getFiltered(); },
-        filterSort: function(){ this.getFiltered(); },
-        filterSortReverse: function(){ this.getFiltered(); },
-        filterGroupRepos: function(){ this.getFiltered(); },
-        filterGroupWeek: function(){ this.getFiltered(); },
-        filterSinceDate: function(){ this.getFiltered(); },
-        filterUntilDate: function(){ this.getFiltered(); }
+        repos() { this.getFiltered(); },
+        filterSort() { this.getFiltered(); },
+        filterSortReverse() { this.getFiltered(); },
+        filterGroupRepos() { this.getFiltered(); },
+        filterGroupWeek() { this.getFiltered(); },
+        filterSinceDate() { this.getFiltered(); },
+        filterUntilDate() { this.getFiltered(); }
     },
     computed: {
-        sliceCount: function(){ return this.filtered[0][0].commits.length; },
-        sliceWidth: function(){ return 100/this.sliceCount; },
-        avgCommitSize: function(){
+        sliceCount() { return this.filtered[0][0].commits.length; },
+        sliceWidth() { return 100/this.sliceCount; },
+        avgCommitSize() {
             var totalCommits=0, totalCount=0;
-            for(repo of this.filtered){
-                for(user of repo){
-                    for(slice of user.commits){
-                        if(slice.insertions==0){ continue; }
+            for(var repo of this.filtered){
+                for(var user of repo){
+                    for(var slice of user.commits){
+                        if(slice.insertions===0){ continue; }
                         totalCount += 1;
                         totalCommits += slice.insertions;
                     }
@@ -73,7 +73,7 @@ var vSummary = {
             }
             return totalCommits/totalCount;
         },
-        avgContributionSize: function(){
+        avgContributionSize() {
             var totalLines=0, totalCount=0;
             for(repo of this.filtered){
                 for(user of repo){
@@ -87,18 +87,20 @@ var vSummary = {
     },
     methods: {
         // view funcs
-        getWidth: function(slice){
+        getWidth(slice) {
             if(slice.insertions==0){ return 0; }
 
             var size = this.sliceWidth;
             size *= slice.insertions/this.avgCommitSize;
             return Math.max(size*this.rampScale, 0.5);
         },
-        getSliceTitle: function(slice){
+        getSliceTitle(slice) {
             return "contribution on " + slice.fromDate +
                 ": " + slice.insertions + " lines";
         },
-        getSliceLink: function(user, slice){
+        getSliceLink(user, slice) {
+            var REPOS = window.REPOS;
+
             return 'http://github.com/' +
               REPOS[user.repoId].organization + '/' +
               REPOS[user.repoId].repoName + '/commits/' +
@@ -107,7 +109,7 @@ var vSummary = {
               'since=' + slice.fromDate + '&' +
               'until=' + slice.toDate;
         },
-        getContributionBars: function(totalContribution){
+        getContributionBars(totalContribution) {
             var res = [];
             var contributionLimit = (this.avgContributionSize*2);
 
@@ -120,7 +122,7 @@ var vSummary = {
             return res;
         },
         // model funcs
-        getFilterHash: function(){
+        getFilterHash() {
             this.filterSearch = this.filterSearch.toLowerCase();
             this.filterHash = [
                 enquery("search", this.filterSearch),
@@ -133,7 +135,7 @@ var vSummary = {
 
             window.location.hash = this.filterHash;
         },
-        getDates: function(){
+        getDates() {
             if(this.filterSinceDate && this.filterUntilDate){
                 return;
             }
@@ -152,17 +154,17 @@ var vSummary = {
             if(!this.filterSinceDate){ this.filterSinceDate=minDate; }
             if(!this.filterUntilDate){ this.filterUntilDate=maxDate; }
         },
-        getFiltered: function(){
+        getFiltered() {
             this.getFilterHash();
 
             // array of array, sorted by repo
             var full = [];
 
-            for(repo of this.repos){
+            for(var repo of this.repos){
                 var res = [];
 
                 // filtering
-                for(user of repo.users){
+                for(var user of repo.users){
                     if(user.searchPath.search(this.filterSearch)>-1){
                         this.getUserCommits(user);
                         if(this.filterGroupWeek){ this.splitCommitsWeek(user); }
@@ -177,7 +179,7 @@ var vSummary = {
             this.sortFiltered();
             this.getDates();
         },
-        splitCommitsWeek: function(user){
+        splitCommitsWeek(user) {
             var commits = user.commits;
             var leng = commits.length;
 
@@ -202,7 +204,7 @@ var vSummary = {
 
             user.commits = res;
         },
-        getUserCommits: function(user){
+        getUserCommits(user) {
             user["commits"] = [];
             var userFirst = user.dailyCommits[0];
             var userLast = user.dailyCommits[user.dailyCommits.length-1];
@@ -245,7 +247,7 @@ var vSummary = {
                 });
             }
         },
-        sortFiltered: function(){
+        sortFiltered() {
             var full = [];
             if(this.filterGroupRepos){
                 for(users of this.filtered){
@@ -270,5 +272,5 @@ var vSummary = {
             this.filtered = full;
         }
     },
-    created: function(){ this.getFiltered(); }
+    created() { this.getFiltered(); }
 };
