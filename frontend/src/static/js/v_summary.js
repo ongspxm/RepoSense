@@ -262,11 +262,11 @@ var vSummary = {
             }
             
             if(this.filterGroupRepos){ 
-                full[0].sort(comparator(ele => ele[this.filterSort]));
+                full[0].sort(comparator((ele) => ele[this.filterSort]));
             }
 
             if(this.filterSortReverse){
-                for(var users of full){ repo.reverse(); }
+                for(var repo of full){ repo.reverse(); }
             }
 
             this.filtered = full;
