@@ -10,7 +10,7 @@ function loadJSON(file, fn){
     var xhr = new XMLHttpRequest();
     xhr.open("GET", file);
     xhr.onload = function(){
-        if(xhr.status == 200){
+        if(xhr.status === 200){
             fn(JSON.parse(xhr.responseText));
         }else{
             alert("unable to get file");
@@ -20,15 +20,18 @@ function loadJSON(file, fn){
 }
 
 var api = {
-    loadSummary: function(callback){
-        loadJSON(REPORT_DIR+"/summary.json", repos => {
+    loadSummary(callback) {
+        var REPORT_DIR = window.REPORT_DIR;
+        var REPOS = window.REPOS;
+
+        loadJSON(REPORT_DIR+"/summary.json", (repos) => {
             REPOS = {};
 
             var names = [];
             for(var repo of repos){
-                var name = repo.organization+"_"+repo.repoName;
-                REPOS[name] = repo;
-                names.push(name);
+                var repoName = repo.organization+"_"+repo.repoName;
+                REPOS[repoName] = repo;
+                names.push(repoName);
             }
 
             if(callback){ callback(); }
@@ -36,12 +39,18 @@ var api = {
         });
     },
 
-    loadCommits: function(repo){
-        loadJSON(REPORT_DIR+"/"+repo+"/commits.json", commits => {
+    loadCommits(repo) {
+        var REPORT_DIR = window.REPORT_DIR;
+        var REPOS = window.REPOS;
+        var app = window.app;
+
+        loadJSON(REPORT_DIR+"/"+repo+"/commits.json", (commits) => {
             REPOS[repo].commits = commits;
 
             var res = [];
             for(var author in commits.authorDisplayNameMap){
+                if(!author){ continue; }
+
                 var obj = {
                     name: author,
                     repoId: repo,
