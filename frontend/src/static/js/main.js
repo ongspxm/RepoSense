@@ -10,7 +10,7 @@ var app = new window.Vue({
         loadedRepo: 0,
         userUpdated: false,
 
-        isTabActive: true,
+        isTabActive: false,
         isTabAuthorship: false,
         isTabIssues: false,
 
@@ -23,13 +23,17 @@ var app = new window.Vue({
             REPORT_DIR = this.reportDirInput;
             this.users = [];
 
-            window.api.loadSummary(() => {
+            window.api.loadSummary((names) => {
                 this.repos = REPOS;
                 this.repoLength = Object.keys(REPOS).length;
                 this.loadedRepo = 0;
+
+                for(var name of names){
+                    window.api.loadCommits(name, ()=>this.addUsers());
+                }
             });
         },
-        addUsers(users) {
+        addUsers() {
             this.userUpdated = false;
             this.loadedRepo += 1;
             this.userUpdated = true;
@@ -50,11 +54,12 @@ var app = new window.Vue({
         },
 
         updateTabAuthorship: function(obj){
-            this.isTabAuthorship = false;
+            this.deactivateTabs();
             
             this.tabAuthor = obj.author;
             this.tabRepo = obj.repo;
 
+            this.isTabActive = true; 
             this.isTabAuthorship = true;
         }
     },

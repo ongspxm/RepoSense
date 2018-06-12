@@ -35,16 +35,12 @@ var api = {
             }
 
             if(callback){
-                callback();
-            }
-
-            for(var name of names){
-                api.loadCommits(name);
+                callback(names);
             }
         });
     },
 
-    loadCommits(repoName) {
+    loadCommits(repoName, callback) {
         var REPORT_DIR = window.REPORT_DIR;
 
         loadJSON(REPORT_DIR+"/"+repoName+"/commits.json", (commits) => {
@@ -71,6 +67,7 @@ var api = {
 
                 obj.searchPath = searchParams.join("/").toLowerCase();
                 obj.repoPath = repo.organization + "/" + repo.repoName;
+                obj.repoName = repo.organization + "_" + repo.repoName;
 
                 res.push(obj);
             }
@@ -78,8 +75,22 @@ var api = {
             repo.commits = commits;
             repo.users = res;
 
-            var app = window.app;
-            app.addUsers();
+            if(callback){
+                callback(res);
+            }
+        });
+    },
+    
+    loadAuthorship(repoName, callback) {
+        var REPORT_DIR = window.REPORT_DIR;
+
+        loadJSON(REPORT_DIR+"/"+repoName+"/authorship.json", (files) => {
+            window.REPOS[repoName].files = files;
+
+            if(callback){
+                callback(files);
+            }
         });
     }
+
 };

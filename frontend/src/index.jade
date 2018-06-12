@@ -59,7 +59,12 @@ html
           .author {{ author }}
 
         .files(v-if="isLoaded")
-          h1 asdf
+          .file(v-for="file in files") 
+            .title {{ file.path }}
+            pre.lines
+              code.line.hljs(v-for="line in file.lines") {{ line.content }}
+              
+        .empty(v-else) loading...
 
     script#v_summary
       #summary.wrapper
@@ -96,7 +101,7 @@ html
             .summary-charts--title(v-if="filterGroupRepos") {{ repo[0].repoPath }}
             .summary-chart(v-for="(user, i) in repo", v-bind:class="{indented:filterGroupRepos}")
               .summary-chart__title(
-                v-on:click="$emit('view-authorship', {author:user.name, repo:user.repoPath})"
+                v-on:click="$emit('view-authorship', {author:user.name, repo:user.repoName})"
               )
                 .summary-chart__title--index {{ i+1 }}
                 .summary-chart__title--repo(v-if="!filterGroupRepos") {{ user.repoPath }}

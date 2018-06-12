@@ -210,4 +210,22 @@ header{
             font-weight:bold;
         }
     }
+
+    .files{
+        margin-top:2rem;
+
+        .file{
+            .lines{
+                .line{
+                    display:block;
+                    white-space:pre-wrap;
+                    word-wrap:break-word;
+                }
+            } 
+        }
+    }
+
+    .empty{
+        text-align:center;
+    }
 }
