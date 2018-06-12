@@ -8,7 +8,10 @@ var app = new window.Vue({
         repos: {},
         repoLength: 0,
         loadedRepo: 0,
-        userUpdated: false
+        userUpdated: false,
+        isTabActive: true,
+        isTabAuthorship: false,
+        isTabIssues: false
     },
     methods:{
         // model funcs
@@ -35,6 +38,10 @@ var app = new window.Vue({
                 }
             }
             return full;
+        },
+        deactivateTabs: function(){
+            this.isTabAuthorship = false;
+            this.isTabIssues = false;
         }
     },
     components:{

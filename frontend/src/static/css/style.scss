@@ -16,10 +16,14 @@ body{
 
 .empty{
     margin:3rem 5rem;
+    text-align:center;
 }
 
 /** navigation bar **/
 header{
+    z-index:100;
+    position:relative;
+
     display:flex;
     justify-content:center;
 
@@ -36,9 +40,69 @@ header{
     }
 }
 
+#app-wrapper{
+    display:flex;
+    position:absolute;
+    left:0; top:0;
+    z-index:50;
+
+    width:100%;
+    height:100vh;
+
+    #summary-wrapper{
+        height:100%;
+        overflow-y:scroll;
+        flex-grow:1;
+    }
+
+    #tabs-wrapper{
+        $tabs-width:30rem;
+
+        flex:0 0 $tabs-width;
+        position:relative;
+        overflow-y:scroll;
+
+        .tab-close{
+            cursor:pointer;
+            position:fixed;
+            top:calc(50vh - 3rem);
+
+            svg{
+                color:#fff;
+                background-color:#333;
+                padding:3rem 0.25rem;
+            }
+        }
+
+        .mui-tabs__bar{
+            background-color:#fff;
+            width:$tabs-width;
+            position:fixed;
+            right:0;
+
+            a{
+                display:inline;
+                cursor:pointer;
+                vertical-align:middle;
+            }
+        }
+
+        .tab-content{
+            display:flex;
+            padding:1rem 1.5rem;
+            padding-top:4rem;
+
+            .tab-panes{
+                width:100%;
+                text-align:left;
+            }
+        }
+    }
+}
+
 /* summary chart */
 #summary, .summary-status{
-    margin:2rem;
+    padding:2rem 1rem;
 }
 
 .summary-picker{
@@ -75,7 +139,7 @@ header{
     margin-bottom:1rem;
 
     &.indented{
-        margin-left:1.5rem;
+        padding-left:1.5rem;
     }
 
     &__title{
