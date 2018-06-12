@@ -144,6 +144,7 @@ header{
 
     &__title{
         text-align:left;
+        cursor:pointer;
 
         &--index, &--repo, &--name{
             display:inline;
@@ -197,6 +198,16 @@ header{
             height:0.3rem;
             margin-top:0.1rem;
             background-color:mui-color("red");
+        }
+    }
+}
+
+/* Authorship */
+#tab-authorship{
+    .title{
+        .repoName{
+            font-size:1.5rem;
+            font-weight:bold;
         }
     }
 }

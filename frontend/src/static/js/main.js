@@ -9,9 +9,13 @@ var app = new window.Vue({
         repoLength: 0,
         loadedRepo: 0,
         userUpdated: false,
+
         isTabActive: true,
         isTabAuthorship: false,
-        isTabIssues: false
+        isTabIssues: false,
+
+        tabAuthor: "",
+        tabRepo: ""
     },
     methods:{
         // model funcs
@@ -39,12 +43,23 @@ var app = new window.Vue({
             }
             return full;
         },
+
         deactivateTabs: function(){
             this.isTabAuthorship = false;
             this.isTabIssues = false;
+        },
+
+        updateTabAuthorship: function(obj){
+            this.isTabAuthorship = false;
+            
+            this.tabAuthor = obj.author;
+            this.tabRepo = obj.repo;
+
+            this.isTabAuthorship = true;
         }
     },
     components:{
-        "v_summary": window.vSummary
+        "v_summary": window.vSummary,
+        "v_authorship": window.vAuthorship
     },
 });
