@@ -36,6 +36,27 @@ var vAuthorship = {
             }       
         },
 
+        splitSegments(lines) {
+            // split into segments separated by authored
+            var lastState, lastId=-1, segments=[];
+            for(var line of lines){
+                var authored = (line.author && line.author.gitId===this.author); 
+
+                if(authored!==lastState || lastId===-1){
+                    segments.push({
+                        authored: authored,
+                        lines: []
+                    });
+
+                    lastId += 1;
+                    lastState = authored;
+                }
+                segments[lastId].lines.push(line.content);
+            }
+
+            return segments;
+        },
+
         processFiles(files) {
             var res = [];
 
@@ -44,27 +65,11 @@ var vAuthorship = {
                     var out = {};
                     out.path = file.path;
                     
-                    // split into segments separated by authored
-                    var lastState, lastId=-1, segments=[];
-                    for(var line of file.lines){
-                        var authored = (line.author && line.author.gitId===this.author); 
-
-                        if(authored!==lastState || lastId===-1){
-                            segments.push({
-                                authored: authored,
-                                lines: []
-                            });
-
-                            lastId += 1;
-                            lastState = authored;
-                        }
-                        segments[lastId].lines.push(line.content);
-                    }
+                    var segments = this.splitSegments(file.lines);
 
                     // append and prepend unauthored code for context (5 lines)
                     var contextedSegments = [];
                     var LINE_BUFFER = 5;
-                    var MIN_SEGMENT_HEIGHT = 5;
                     for(var segId=0; segId<segments.length; segId++){
                         var segment = segments[segId]; 
 

@@ -60,7 +60,7 @@ header{
     }
 
     #tabs-wrapper{
-        $tabs-width:30rem;
+        $tabs-width:50%;
 
         flex:0 0 $tabs-width;
         position:relative;
@@ -218,9 +218,16 @@ header{
     .files{
         margin-top:2rem;
 
+        .title{
+            margin-top:1rem;
+            cursor:pointer;
+            font-size:1.25rem;
+            font-weight:bold;
+        }
+
         .untouched .code{
             background:#f00;
-        } 
+        }
     }
 
     .empty{
