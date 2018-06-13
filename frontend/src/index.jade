@@ -52,21 +52,7 @@ html
       template(v-else)
         .empty please enter a report directory
 
-    script#v_authorship
-      #authorship
-        .title
-          .repoName {{ repo }}
-          .author {{ author }}
-
-        .files(v-if="isLoaded")
-          .file(v-for="file in files") 
-            .title {{ file.path }}
-            pre.lines
-              code.line.hljs(v-for="line in file.lines") {{ line.content }}
-              
-        .empty(v-else) loading...
-
-    script#v_summary
+    vuetemplate#v_summary
       #summary.wrapper
         form.summary-picker.content.mui-form--inline(v-on:submit.prevent="getFiltered();")
           .mui-textfield.summary-picker__input
@@ -123,6 +109,23 @@ html
                   v-for="width in getContributionBars(user.totalCommits)",
                   v-bind:style="{ width: width+'%' }"
                 )
+
+    vuetemplate#v_authorship
+      #authorship
+        .title
+          .repoName {{ repo }}
+          .author {{ author }}
+
+        .files(v-if="isLoaded")
+          .file(v-for="file in files") 
+            .title(onclick="toggleNext(this)") {{ file.path }}
+            pre.hljs.java
+              code
+                template(v-for="segment in file.segments") 
+                  .segment(v-bind:class="{ untouched: !segment.authored }")
+                    .code(onclick="console.log('asdf');") {{ segment.lines.join("\n") }}
+
+        .empty(v-else) loading...
 
     script(src="static/js/api.js")
     script(src="static/js/v_summary.js")

@@ -5,6 +5,10 @@ body{
     font-family:"Titillium Web", sans-serif;
 }
 
+vuetemplate{
+    display:none;
+}
+
 .wrapper{
     text-align:center;
 }
@@ -214,15 +218,9 @@ header{
     .files{
         margin-top:2rem;
 
-        .file{
-            .lines{
-                .line{
-                    display:block;
-                    white-space:pre-wrap;
-                    word-wrap:break-word;
-                }
-            } 
-        }
+        .untouched .code{
+            background:#f00;
+        } 
     }
 
     .empty{
