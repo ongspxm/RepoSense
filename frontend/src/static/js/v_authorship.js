@@ -57,6 +57,54 @@ var vAuthorship = {
             return segments;
         },
 
+        mergeSegments(segments) { 
+            var lastAuthored;
+            var mergedSegments = [];
+            for(var segment of segments){
+                if(lastAuthored!==segment.authored || mergedSegments.length===0){
+                    mergedSegments.push(segment);
+                    lastAuthored = segment.authored;
+                }else{
+                    var last = mergedSegments[mergedSegments.length-1];
+                    last.lines = last.lines.concat(segment.lines);
+                }
+            }
+
+            return mergedSegments;
+        },
+
+        removeSmallUnauthored(segments){
+            var MIN_LINES = 5;
+            var res = [];
+            for(var segment of segments){
+                if(segment.lines.length<MIN_LINES && !segment.authored){
+                    if(res.length===0){
+                        var lines = segments[1].lines;
+                        segments[1].lines = segment.lines.concat(lines);
+                    }else{
+                        var last = res[res.length-1];
+                        last.lines = segment.lines.concat(last.lines);
+                    }
+                }
+                else{
+                    res.push(segment); 
+                }
+            }
+            
+            return res;
+        },
+
+        removeEmptySegments(segments) { 
+            var res = [];
+            for(var segment of segments){
+                if(segment.lines.join("")!==""){
+                    res.push(segment);
+                }
+            }
+
+            return res;
+        },
+
         processFiles(files) {
             var res = [];
 
@@ -66,50 +114,9 @@ var vAuthorship = {
                     out.path = file.path;
                     
                     var segments = this.splitSegments(file.lines);
-
-                    // append and prepend unauthored code for context (5 lines)
-                    var contextedSegments = [];
-                    var LINE_BUFFER = 5;
-                    for(var segId=0; segId<segments.length; segId++){
-                        var segment = segments[segId]; 
-
-                        if(!segment.authored){
-                            // append to end of last authored
-                            if(segId>0 && contextedSegments.length>0){
-                                var last = contextedSegments[contextedSegments.length-1]; 
-                                var appendCnt = Math.min(segment.lines.length, LINE_BUFFER); 
-                                for(var i=0; i<appendCnt; i++){
-                                    last.lines.push(segment.lines.shift());
-                                }
-                            }
-
-                            // prepend to start of next authored 
-                            if(segId<segments.length-1){
-                                var next = segments[segId+1]; 
-                                var prependCnt = Math.min(segment.lines.length, LINE_BUFFER); 
-                                for(var i=0; i<prependCnt; i++){
-                                    next.lines.unshift(segment.lines.pop());
-                                }
-                            }
-                        }
-
-                        if(segment.lines.length>0){
-                            contextedSegments.push(segment); 
-                        }
-                    }
-
-                    // merging consecutive authored blocks
-                    var mergedSegments = [];
-                    var lastAuthored;
-                    for(var segment of contextedSegments){
-                        if(lastAuthored!==segment.authored || mergedSegments.length===0){
-                            mergedSegments.push(segment);
-                            lastAuthored = segment.authored;
-                        }else{
-                            var last = mergedSegments[mergedSegments.length-1];
-                            last.lines = last.lines.concat(segment.lines);
-                        }
-                    }
+                    var bigSegments = this.removeSmallUnauthored(segments);
+                    var validSegments = this.removeEmptySegments(bigSegments);
+                    var mergedSegments = this.mergeSegments(validSegments);
 
                     out.segments = mergedSegments;
                     res.push(out);

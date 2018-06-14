@@ -225,8 +225,23 @@ header{
             font-weight:bold;
         }
 
-        .untouched .code{
-            background:#f00;
+        .untouched{
+            $color:mui-color("black");
+            border-style:solid;
+            border-color:$color;
+            border-width:1px 0;
+            margin-top:1rem;
+
+            .closer{
+                cursor:pointer;
+                padding:0.5rem 1rem; 
+                
+                span{
+                    color:$color;
+                    font-weight:bold;
+                }
+            }
+
         }
     }
 
