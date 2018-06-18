@@ -117,13 +117,13 @@ html
           .author {{ author }}
 
         .files(v-if="isLoaded")
-          .file(v-for="file in files") 
+          .file(v-for="file in files")
             .title(onclick="toggleNext(this)") {{ file.path }}
             pre.hljs.java
               code
-                template(v-for="segment in file.segments") 
+                template(v-for="segment in file.segments")
                   .segment(v-bind:class="{ untouched: !segment.authored }")
-                    .closer(v-if="!segment.authored", onclick="toggleNext(this)") 
+                    .closer(v-if="!segment.authored", onclick="toggleNext(this)")
                       span untouched code (click to toggle)
                     .code(v-if="segment.authored") {{ segment.lines.join("\n") }}
                     .code(v-else, style="display:none;") {{ segment.lines.join("\n") }}
