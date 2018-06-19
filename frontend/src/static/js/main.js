@@ -23,13 +23,13 @@ var app = new window.Vue({
             REPORT_DIR = this.reportDirInput;
             this.users = [];
 
-            window.api.loadSummary((names) => {
+            window.api.loadSummary(function(names){
                 this.repos = REPOS;
                 this.repoLength = Object.keys(REPOS).length;
                 this.loadedRepo = 0;
 
                 for(var name of names){
-                    window.api.loadCommits(name, ()=>this.addUsers());
+                    window.api.loadCommits(name, () => this.addUsers());
                 }
             });
         },
@@ -48,18 +48,18 @@ var app = new window.Vue({
             return full;
         },
 
-        deactivateTabs: function(){
+        deactivateTabs(){
             this.isTabAuthorship = false;
             this.isTabIssues = false;
         },
 
-        updateTabAuthorship: function(obj){
+        updateTabAuthorship(obj){
             this.deactivateTabs();
-            
+
             this.tabAuthor = obj.author;
             this.tabRepo = obj.repo;
 
-            this.isTabActive = true; 
+            this.isTabActive = true;
             this.isTabAuthorship = true;
         }
     },

@@ -21,30 +21,28 @@ var vAuthorship = {
 
     watch: {
         repo() { this.initiate(); },
-        author() { this.initiate(); } 
+        author() { this.initiate(); }
     },
 
     methods: {
-        initiate() { 
+        initiate() {
             var repo = window.REPOS[this.repo];
             if(repo.files){
                 this.processFiles(repo.files);
-            }else{ 
-                window.api.loadAuthorship(this.repo, files=>{
-                    this.processFiles(files); 
-                });
-            }       
+            }else{
+                window.api.loadAuthorship(this.repo, files => this.processFiles(files));
+            }
         },
 
         splitSegments(lines) {
             // split into segments separated by authored
             var lastState, lastId=-1, segments=[];
             for(var line of lines){
-                var authored = (line.author && line.author.gitId===this.author); 
+                var authored = (line.author && line.author.gitId===this.author);
 
                 if(authored!==lastState || lastId===-1){
                     segments.push({
-                        authored: authored,
+                        authored,
                         lines: []
                     });
 
@@ -57,7 +55,7 @@ var vAuthorship = {
             return segments;
         },
 
-        mergeSegments(segments) { 
+        mergeSegments(segments) {
             var lastAuthored;
             var mergedSegments = [];
             for(var segment of segments){
@@ -87,14 +85,14 @@ var vAuthorship = {
                     }
                 }
                 else{
-                    res.push(segment); 
+                    res.push(segment);
                 }
             }
-            
+
             return res;
         },
 
-        removeEmptySegments(segments) { 
+        removeEmptySegments(segments) {
             var res = [];
             for(var segment of segments){
                 if(segment.lines.join("")!==""){
@@ -112,7 +110,7 @@ var vAuthorship = {
                 if(file.authorContributionMap[this.author]){
                     var out = {};
                     out.path = file.path;
-                    
+
                     var segments = this.splitSegments(file.lines);
                     var bigSegments = this.removeSmallUnauthored(segments);
                     var validSegments = this.removeEmptySegments(bigSegments);
@@ -132,10 +130,10 @@ var vAuthorship = {
         this.initiate();
     },
 
-    updated() { 
+    updated() {
         this.$nextTick(() => {
             document.querySelectorAll("pre.hljs code").forEach(
-                (ele) => { hljs.highlightBlock(ele); }
+                (ele) => { window.hljs.highlightBlock(ele); }
             );
         });
     }
