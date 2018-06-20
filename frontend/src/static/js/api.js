@@ -80,7 +80,7 @@ var api = {
             }
         });
     },
-    
+
     loadAuthorship(repoName, callback) {
         var REPORT_DIR = window.REPORT_DIR;
 
