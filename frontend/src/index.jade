@@ -41,9 +41,11 @@ html
             i.fas.fa-caret-right
           .tab-content
             .tab-panes
+              v_zoomin#tab-zoomin.tab-pane(
+                v-if="tabActive=='zoomin'",
+                v-bind:info="tabInfo.tabZoomin")
               v_authorship#tab-authorship.tab-pane(
-                v-if="tabActive=='authorship'"
-                v-bind:key="generateKey(tabInfo.tabAuthorship)",
+                v-else-if="tabActive=='authorship'",
                 v-bind:info="tabInfo.tabAuthorship")
               #tab-empty.tab-pane(v-else)
                 .title
@@ -164,6 +166,9 @@ html
                   v-for="width in getContributionBars(user.totalCommits)",
                   v-bind:style="{ width: width+'%' }"
                 )
+
+    vuetemplate#v_zoomin
+      include zoomin.jade
 
     vuetemplate#v_authorship
       #authorship

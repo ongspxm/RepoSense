@@ -102,7 +102,7 @@ window.app = new window.Vue({
 
     // isTabActive used to force tab wrapper to load
     isTabActive: true,
-    tabActive: 'empty',
+    tabActive: 'zoomin',
     tabInfo: {},
     creationDate: '',
   },
@@ -180,6 +180,7 @@ window.app = new window.Vue({
   components: {
     v_summary: window.vSummary,
     v_authorship: window.vAuthorship,
+    v_zoomin:window.vZoomin,
     CircleSpinner: window.VueLoadingSpinner.Circle,
   },
   created() {
