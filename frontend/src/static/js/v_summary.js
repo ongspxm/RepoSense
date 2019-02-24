@@ -36,7 +36,6 @@ function dragViewDown(evt){
   const offset = ramp.parentElement.offsetLeft;
 
   const overlay = ramp.getElementsByClassName('overlay')[0];
-
   overlay.style.marginLeft = '0';
   overlay.style.width = (pos-offset)*100/base + '%';
   overlay.className += ' edge';
@@ -48,13 +47,12 @@ function dragViewUp(evt){
   const ramp = getBaseTarget(evt.target);
 
   const base = ramp.offsetWidth;
+  const offset = ramp.parentElement.offsetLeft;
   drags.push(evt.clientX);
+  drags = drags.map(x => (x-offset)*100/base);
   drags.sort();
 
-  const offset = ramp.parentElement.offsetLeft;
   const overlay = ramp.getElementsByClassName('overlay')[0];
-
-  drags = drags.map(x => (x-offset)*100/base);
   overlay.style.marginLeft = drags[0] + '%';
   overlay.style.width = (drags[1]-drags[0]) + '%';
   overlay.className += ' show';
@@ -193,7 +191,13 @@ window.vSummary = {
       });
     },
 
-    // model functions //
+    openTabZoomin(user) {
+      this.$emit('view-zoomin', {
+        user, drags
+      });
+    },
+
+    // searching & sorting funcs + hash //
     updateFilterSearch(evt) {
       this.filterSearch = evt.target.value;
     },
@@ -233,6 +237,7 @@ window.vSummary = {
       if (hash.repoSort) { this.filterGroupRepos = convertBool(hash.repoSort); }
     },
 
+    // ramp generation funcs //
     getDates() {
       if (this.minDate && this.maxDate) {
         return;
@@ -421,6 +426,7 @@ window.vSummary = {
       this.filtered = full;
     },
   },
+
   created() {
     this.renderFilterHash();
     this.getFiltered();
