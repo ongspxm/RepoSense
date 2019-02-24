@@ -163,14 +163,21 @@ window.app = new window.Vue({
       }
     },
 
-    updateTabAuthorship(obj) {
+    activateTab(tabName) {
       this.deactivateTab();
-      this.tabInfo.tabAuthorship = Object.assign({}, obj);
-
       this.isTabActive = true;
       this.isCollapsed = false;
+      this.tabActive = tabName;
+    },
 
-      this.tabActive = 'authorship';
+    updateTabAuthorship(obj) {
+      this.tabInfo.tabAuthorship = Object.assign({}, obj);
+      this.activateTab('authorship');
+    },
+
+    updateTabZoomIn(obj) {
+      this.tabInfo.tabZoomin = Object.assign({}, obj);
+      this.activateTab('zoomin');
     },
 
     generateKey(dataObj) {

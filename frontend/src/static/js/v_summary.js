@@ -54,9 +54,9 @@ function dragViewUp(evt){
   const offset = ramp.parentElement.offsetLeft;
   const overlay = ramp.getElementsByClassName('overlay')[0];
 
-  const pos = drags.map(x => (x-offset)*100/base);
-  overlay.style.marginLeft = pos[0] + '%';
-  overlay.style.width = (pos[1]-pos[0]) + '%';
+  drags = drags.map(x => (x-offset)*100/base);
+  overlay.style.marginLeft = drags[0] + '%';
+  overlay.style.width = (drags[1]-drags[0]) + '%';
   overlay.className += ' show';
 }
 
@@ -180,6 +180,17 @@ window.vSummary = {
       }
 
       return res;
+    },
+
+    // open new tab funcs //
+    openTabAuthorship(user, repo) {
+      this.$emit('view-authorship', {
+        author:user.name,
+        repo:user.repoName,
+        name:user.displayName,
+        location:repo[0].location,
+        totalCommits:user.totalCommits
+      });
     },
 
     // model functions //
