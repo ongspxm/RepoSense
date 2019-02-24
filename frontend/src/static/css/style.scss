@@ -191,21 +191,27 @@ header{
 }
 
 .summary-chart{
-    position:relative;
     margin-bottom:1rem;
     text-align:left;
 
-    .overlay{
-      height:100%;
-      position:absolute;
-      background-color:#fffa;
+    &__ramp{
+      position:relative;
 
-      &-edge{
+      .ramp{
+        z-index:50;
+      }
+
+      .overlay{
         height:100%;
         position:absolute;
+        z-index:100;
+
+        &.edge{
+          border-right:.1rem dashed #000;
+        }
 
         &.show{
-          border-right:.1rem dashed #000;
+          background-color:#fffa;
         }
       }
     }
